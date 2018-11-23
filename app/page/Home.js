@@ -5,8 +5,8 @@ import {
   View,
   TouchableOpacity
 } from 'react-native';
-import SonComponent from './../component/sonComponent';
-import OtherSonComponent from './../component/otherSonComponent';
+import SonOneComponent from './../components/SonOneComponent';
+import SonTwoComponent from './../components/SonTwoComponent';
 export default class HomePage extends Component{
   constructor(props){
     super(props)
@@ -14,9 +14,9 @@ export default class HomePage extends Component{
       money:0
     }
   }
-  getSonData(data){
+  receiveChild(money){
     this.setState({
-      money:data
+      money:money
     })
   }
   render(){
@@ -25,12 +25,11 @@ export default class HomePage extends Component{
         <Text style={styles.welcome}>
            我是首页
         </Text>
-        <SonComponent toSon='父组件传到子组件' getSonData={this.getSonData.bind(this)} />
-        <Text>
-          我是从子组件来的{this.state.money}
-        </Text>
-        <OtherSonComponent />
-        
+         <SonOneComponent toChild='100' receiveChild={this.receiveChild.bind(this)}/>
+         <Text>
+           我是从子组件来的值{this.state.money}
+         </Text>
+         <SonTwoComponent />
       </View>
     );
   }
