@@ -1,28 +1,98 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
   StyleSheet,
   Text,
   View,
-  TouchableOpacity
-} from 'react-native';
-import { Actions } from 'react-native-router-flux';
+  TouchableOpacity,
+  TextInput,
+  TouchableNativeFeedback
+} from "react-native";
+import { isTel } from './../common/validate'
 
-export default class RetrievePasswordPage extends Component{
-  render(){
+export default class RetrievePasswordPage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: "",
+      password: "",
+      verificationCode: "",
+      confirmPassword:'',
+    };
+  }
+  changeText(name, text) {
+    this.setState({
+      [name]: text
+    });
+  }
+  retrievePassword() {
+    let isRegister=this.verify();
+    if(isRegister){
+      Actions.login();
+    }
+  }
+  verify() {
+    if (!this.state.name) {
+      Alert.alert("请输入手机号");
+      return false;
+    } else if (!this.state.verificationCode) {
+      Alert.alert("请输入验证码");
+      return false;
+    } else if (!this.state.password) {
+      Alert.alert("请输入密码");
+      return false;
+    } else if (this.state.password != this.state.confirmPassword) {
+      Alert.alert("两次密码输入不一致");
+      return false;
+    } else if (!isTel(this.state.name)) {
+      Alert.alert("请输入正确的手机号");
+      return false;
+    } else {
+      return true;
+    }
+  }
+  render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          我是找回密码页面
-        </Text>
-        <Text style={styles.welcome}
-         onPress={() => {
-                Actions.popTo('register'); //先popTo到要返回的页,此方法存在BUG             
-                setTimeout(()=> {  
-                    Actions.refresh({ backData: '我从找回密码回退到注册页面' }); //再传值刷新页面   
-                });    
-           }}>
-           回退到注册页面
-        </Text>
+        <View style={[styles.input,styles.firstInput]}>
+          <TextInput
+            style={styles.innerInput}
+            placeholder="请输入手机号"
+            value={this.state.name}
+            onChangeText={text => this.changeText("name", text)}
+          />
+        </View>
+        <View style={styles.input}>
+          <TextInput
+            style={styles.innerInput}
+            placeholder="请输入验证码"
+            value={this.state.verificationCode}
+            onChangeText={text => this.changeText("verificationCode", text)}
+          />
+          <Text style={styles.getCode}>获取验证码</Text>
+        </View>
+        <View style={styles.input}>
+          <TextInput
+            style={styles.innerInput}
+            secureTextEntry={true}
+            placeholder="请输入新密码"
+            value={this.state.password}
+            onChangeText={text => this.changeText("password", text)}
+          />
+        </View>
+        <View style={styles.input}>
+          <TextInput
+            style={styles.innerInput}
+            secureTextEntry={true}
+            placeholder="再次输入新密码"
+            value={this.state.confirmPassword}
+            onChangeText={text => this.changeText("confirmPassword", text)}
+          />
+        </View>
+        <TouchableNativeFeedback onPress={this.retrievePassword.bind(this)}>
+          <View style={styles.button}>
+            <Text style={styles.buttonText}>修 改</Text>
+          </View>
+        </TouchableNativeFeedback>
       </View>
     );
   }
@@ -30,14 +100,48 @@ export default class RetrievePasswordPage extends Component{
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    // justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: "#fff"
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-    color: 'blue',
+  input: {
+    width: "80%",
+    height: 60,
+    borderBottomWidth: 1,
+    borderColor: "#ccc",
+    flexDirection: "row"
   },
+  firstInput:{
+    marginTop:100,
+  },
+  innerInput: {
+    height: 60,
+    flex: 1
+  },
+
+  inputBox: {
+    alignItems: "center",
+    marginTop: 50
+  },
+  getCode: {
+    height: 60,
+    lineHeight: 60,
+    fontSize: 16
+  },
+  button: {
+    marginBottom: 30,
+    width: "80%",
+    height: 50,
+    lineHeight: 50,
+    borderRadius: 25,
+    alignItems: "center",
+    backgroundColor: "#2196F3",
+    marginTop: 100
+  },
+  buttonText: {
+    height: 50,
+    lineHeight: 50,
+    color: "white",
+    fontSize: 20
+  }
 });

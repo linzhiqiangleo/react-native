@@ -55,7 +55,7 @@ export default class router extends React.Component{
                     />
                     <Scene key="retrievePassword"
                         component={RetrievePasswordPage}
-                        title="找回密码"
+                        title="忘记密码"
                     />
                 </Stack>              
             </Router>
