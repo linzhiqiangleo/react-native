@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import SonOneComponent from './../components/SonOneComponent';
 import SonTwoComponent from './../components/SonTwoComponent';
+import Icon from 'react-native-vector-icons/Ionicons'; 
 export default class HomePage extends Component{
   constructor(props){
     super(props)
@@ -25,6 +26,7 @@ export default class HomePage extends Component{
         <Text style={styles.welcome}>
            我是首页
         </Text>
+        <Icon name='md-alarm' size={30} color='blue'/>
          <SonOneComponent toChild='100' receiveChild={this.receiveChild.bind(this)}/>
          <Text>
            我是从子组件来的值{this.state.money}

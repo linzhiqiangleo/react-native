@@ -7,7 +7,7 @@ import {
   TextInput,
   TouchableNativeFeedback
 } from "react-native";
-import { isTel } from './../common/validate'
+import { isTel } from './../common/validate';
 
 export default class LoginPage extends Component {
   constructor(props) {
@@ -64,8 +64,7 @@ export default class LoginPage extends Component {
           
         },1000)
       }
-    }
-   
+    }  
   } 
   login(){
     let isLogin=this.verify()

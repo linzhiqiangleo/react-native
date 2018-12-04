@@ -38,7 +38,6 @@ global.px2dp = px2dp;
 global.Config = Config;
 // router跳转的方法
 global.Actions = Actions;
-
 // 弹出框
 global.Alert = Alert;
 // 存储
